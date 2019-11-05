@@ -26,10 +26,11 @@
     </properties>
 
     <modules>
-        <module>common</module>
-        <module>user</module>
         <module>eureka-server</module>
         <module>zuul-server</module>
+        <module>common</module>
+        <module>user</module>
+        <module>payment</module>
     </modules>
 	
 	<dependencyManagement>
@@ -127,8 +128,6 @@
 
         </dependencies>
     </dependencyManagement>
-	
-
 	
 	<dependencies>
         <dependency>
