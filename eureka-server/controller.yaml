@@ -1,21 +1,21 @@
 kind: Deployment
 apiVersion: extensions/v1beta1
 metadata:
-  name: user
+  name: eureka-server
   labels:
-    app: user
+    app: eureka-server
 spec:
   replicas: 1 
   selector:
     matchLabels:
-      app: user
+      app: eureka-server
   template:
     metadata:
       labels:
-        app: user
+        app: eureka-server
     spec:
       containers:
-      - name: user
+      - name: eureka-server
         image: openjdk:8-jre-alpine
         imagePullPolicy: Always
         resources:
@@ -24,7 +24,7 @@ spec:
           requests:
             memory: "256Mi"
         ports:
-        - containerPort: 8081
+        - containerPort: 7070
         env:
         - name: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
           value: "http://10.1.20.15:7070/eureka/"

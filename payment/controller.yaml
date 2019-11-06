@@ -1,21 +1,21 @@
 kind: Deployment
 apiVersion: extensions/v1beta1
 metadata:
-  name: user
+  name: payment
   labels:
-    app: user
+    app: payment
 spec:
   replicas: 1 
   selector:
     matchLabels:
-      app: user
+      app: payment
   template:
     metadata:
       labels:
-        app: user
+        app: payment
     spec:
       containers:
-      - name: user
+      - name: payment
         image: openjdk:8-jre-alpine
         imagePullPolicy: Always
         resources:
@@ -24,7 +24,7 @@ spec:
           requests:
             memory: "256Mi"
         ports:
-        - containerPort: 8081
+        - containerPort: 8082
         env:
         - name: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
           value: "http://10.1.20.15:7070/eureka/"

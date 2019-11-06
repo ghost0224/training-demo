@@ -9,8 +9,8 @@ pipeline {
         #split repo for each sub project
         REPO="https://github.com/ghost0224/training-demo.git"
         SCRIPT="/usr/local"
-        DEPLOYMENT="user"
-        MODULE="user"
+        DEPLOYMENT="payment"
+        MODULE="payment"
     }
 
     stages {

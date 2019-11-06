@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: zuul-server
+  labels:
+    app: zuul-server
+spec:
+  type: NodePort
+  ports:
+  - port: 8080
+    nodePort: 8080
+  selector:
+    app: zuul-server
