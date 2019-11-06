@@ -1,0 +1,59 @@
+#!groovy
+pipeline {
+    agent any
+    tools {
+        maven 'maven'
+        jdk 'jdk'
+    }
+    environment {
+        REPO="https://github.com/ghost0224/training-demo.git"
+        SCRIPT="/usr/local"
+        DEPLOYMENT="training-demo"
+        MODULE="training-demo"
+    }
+
+    stages {
+
+        stage('获取代码') {
+            steps {
+                echo "start fetch code from git:${REPO}"
+                deleteDir()
+                git "${REPO}"
+            }
+        }
+
+        stage('开始编译') {
+            steps {
+                echo "start compile"
+                sh "mvn -U clean package -DskipTests"
+            }
+        }
+
+        stage ('Sonar扫描') {
+            steps {
+                echo "start sonar"
+                sh 'mvn sonar:sonar'
+            }
+        }
+
+        stage ('上传Nexus') {
+            steps {
+                sh 'mvn deploy -DskipTests'
+            }
+        }
+
+        stage('构建镜像') {
+            steps {
+                echo "start build image"
+                sh "${SCRIPT}/build-images.sh ${MODULE}"
+            }
+        }
+
+        stage('发布系统') {
+            steps {
+                echo "start deploy"
+                sh "${SCRIPT}/deploy.sh ${DEPLOYMENT} ${MODULE}"
+            }
+        }
+    }
+}
