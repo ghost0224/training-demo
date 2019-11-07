@@ -31,6 +31,9 @@
         <module>common</module>
         <module>user</module>
         <module>payment</module>
+        <module>training</module>
+        <module>technology</module>
+        <module>search</module>
     </modules>
 	
 	<dependencyManagement>
