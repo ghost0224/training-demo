@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Training-UI</title>
+<script src="./js/angular.min.js"></script>
+<script src="./js/angular-route.min.js"></script>
+</head>
+<body ng-app='TrainingApp'>
+    <h2>TrainingApp</h2>
+    <ul>
+        <li><a href="#!/index">Index</a></li>
+        <li><a href="#!/login">Login</a></li>
+    </ul>
+
+    <div ng-view></div>
+    <script>
+        angular.module('TrainingApp',['ngRoute'])
+            .controller('LoginController', function ($scope, $route) {
+                $scope.$route = $route;
+                $scope.user = {};
+                $scope.login = function () {
+                    console.log($scope.user);
+                    window.location='#!/main';
+                }
+            })
+            .controller('MainController', function ($scope, $route) {
+            })
+            .config(['$routeProvider', function($routeProvider){
+                $routeProvider
+                .when('/login',{
+                    templateUrl:'./login.html',
+                    controller: 'LoginController'
+                })
+                .when('/main',{
+                    templateUrl:'./main.html',
+                    controller: 'MainController'
+                })
+                .otherwise({redirectTo:'/index'});
+            }]);
+    </script>
+
+</body>
+</html>
