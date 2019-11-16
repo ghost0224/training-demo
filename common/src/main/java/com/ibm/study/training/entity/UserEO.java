@@ -2,32 +2,32 @@ package com.ibm.study.training.entity;
 
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import java.util.Date;
+import javax.persistence.*;
+import java.io.Serializable;
 
 @Data
 @Entity
-public class UserEO {
+@Table(name = "user")
+public class UserEO implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column
     private String name;
 
+    @Column
     private String email;
 
+    @Column
     private String username;
 
+    @Column
     private String password;
 
-    private boolean admin;
-
-    private Date updateTime;
-
-    private String updateBy;
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
+    @JoinColumn(name = "role_id",foreignKey = @ForeignKey(name = "id"))
+    private RoleEO role;
 
 }
