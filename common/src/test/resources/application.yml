@@ -1,10 +1,5 @@
-server:
-  port: 8083
+host: 192.168.94.241
 spring:
-  profiles:
-    active: base
-  application:
-    name: payment
   datasource:
     url: jdbc:mysql://${host}:3306/training_db?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf8
     username: root
@@ -16,10 +11,3 @@ spring:
         dialect: org.hibernate.dialect.MySQL5Dialect
         hbm2ddl:
           auto: update
-eureka:
-  client:
-    service-url:
-      defaultZone: http://${host}:8888/eureka
-  instance:
-    prefer-ip-address: true
-    ip-address: ${host}

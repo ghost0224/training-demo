@@ -22,7 +22,7 @@ public class LoginController {
     @Autowired
     private UserService userService;
 
-    @GetMapping("logout")
+    @PostMapping("logout")
     public @ResponseBody RespMsg logout(HttpServletRequest request) {
         log.info("begin logout");
         RespMsg respMsg = new RespMsg();

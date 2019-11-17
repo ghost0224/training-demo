@@ -49,6 +49,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean update(UserDTO userDTO) {
         UserEO userEO = CopyUtils.copy(userDTO, UserEO.class);
+        RoleEO role = CopyUtils.copy(userDTO.getRole(), RoleEO.class);
+        userEO.setRole(role);
         userDAO.save(userEO);
         return true;
     }
