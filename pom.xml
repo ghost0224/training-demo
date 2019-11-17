@@ -30,10 +30,8 @@
         <module>zuul-server</module>
         <module>common</module>
         <module>user</module>
-        <module>payment</module>
         <module>training</module>
-        <module>technology</module>
-        <module>search</module>
+        <module>payment</module>
     </modules>
 	
 	<dependencyManagement>
