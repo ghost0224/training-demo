@@ -1,53 +1,51 @@
 package com.ibm.study.training.controller;
 
 import com.ibm.study.training.pojo.RespMsg;
-import com.ibm.study.training.pojo.TrainingDTO;
-import com.ibm.study.training.service.TrainingService;
+import com.ibm.study.training.pojo.SkillDTO;
+import com.ibm.study.training.service.SkillService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @RestController
-@RequestMapping("/training")
+@RequestMapping("/skill")
 @Slf4j
-public class TrainingController {
+public class SkillController {
 
     @Autowired
-    private TrainingService trainingService;
+    private SkillService skillService;
 
     @PostMapping("search")
-    public @ResponseBody RespMsg search(@RequestBody TrainingDTO trainingDTO) {
+    public @ResponseBody RespMsg search(@RequestBody SkillDTO skillDTO) {
         log.info("begin search");
         RespMsg respMsg = new RespMsg();
-        List<TrainingDTO> trainingDTOList = trainingService.search(trainingDTO.getTitle());
-        respMsg.setCode("1201");
+        List<SkillDTO> skillDTOList = skillService.search(skillDTO.getName());
+        respMsg.setCode("1211");
         respMsg.setStatus(true);
-        respMsg.setData(trainingDTOList);
+        respMsg.setData(skillDTOList);
         respMsg.setMsg("search successful.");
         return respMsg;
     }
 
     @PostMapping("findById")
-    public RespMsg findById(@RequestBody TrainingDTO trainingDTO) {
+    public RespMsg findById(@RequestBody SkillDTO skillDTO) {
         log.info("begin findById");
         RespMsg respMsg = new RespMsg();
-        TrainingDTO training = trainingService.findById(trainingDTO.getId());
+        SkillDTO skill = skillService.findById(skillDTO.getId());
         respMsg.setCode("1205");
         respMsg.setStatus(true);
-        respMsg.setData(training);
+        respMsg.setData(skill);
         respMsg.setMsg("find successful.");
         return respMsg;
     }
 
     @PostMapping("save")
-    public @ResponseBody RespMsg save(@RequestBody TrainingDTO trainingDTO) {
+    public @ResponseBody RespMsg save(@RequestBody SkillDTO skillDTO) {
         log.info("begin save");
         RespMsg respMsg = new RespMsg();
-        if(trainingService.save(trainingDTO)) {
+        if(skillService.save(skillDTO)) {
             respMsg.setCode("1202");
             respMsg.setStatus(true);
             respMsg.setMsg("save successful.");
@@ -59,10 +57,10 @@ public class TrainingController {
     }
 
     @PostMapping("update")
-    public @ResponseBody RespMsg update(@RequestBody TrainingDTO trainingDTO) {
+    public @ResponseBody RespMsg update(@RequestBody SkillDTO skillDTO) {
         log.info("begin update");
         RespMsg respMsg = new RespMsg();
-        if(trainingService.update(trainingDTO)) {
+        if(skillService.update(skillDTO)) {
             respMsg.setCode("1203");
             respMsg.setStatus(true);
             respMsg.setMsg("update successful.");
@@ -75,10 +73,10 @@ public class TrainingController {
     }
 
     @PostMapping("delete")
-    public @ResponseBody RespMsg delete(@RequestBody TrainingDTO trainingDTO) {
+    public @ResponseBody RespMsg delete(@RequestBody SkillDTO skillDTO) {
         log.info("begin delete");
         RespMsg respMsg = new RespMsg();
-        if(trainingService.delete(trainingDTO.getId())) {
+        if(skillService.delete(skillDTO.getId())) {
             respMsg.setCode("1204");
             respMsg.setStatus(true);
             respMsg.setMsg("delete successful.");
@@ -88,5 +86,6 @@ public class TrainingController {
         }
         return respMsg;
     }
+
 
 }
