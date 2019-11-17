@@ -1,10 +1,12 @@
 server:
   port: 8081
 spring:
+  profiles:
+    active: base
   application:
     name: user
   datasource:
-    url: jdbc:mysql://192.168.30.102:3306/training_db?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf8
+    url: jdbc:mysql://${host}:3306/training_db?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf8
     username: root
     password: 123456
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -17,7 +19,7 @@ spring:
 eureka:
   client:
     service-url:
-      defaultZone: http://192.168.30.102:8888/eureka
+      defaultZone: http://${host}:8888/eureka
   instance:
-    prefer-ip-address: true # 当其它服务获取地址时提供ip而不是hostname
-    ip-address: 127.0.0.1 # 指定自己的ip信息，不指定的话会自己寻找
+    prefer-ip-address: true
+    ip-address: ${host}
