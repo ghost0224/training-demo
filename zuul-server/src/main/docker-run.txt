@@ -1,0 +1,1 @@
+docker run -d -p 7070:7070 --link eureka-server:eureka-server --link payment:payment --link training:training --link user:user --name zuul-server #imageID

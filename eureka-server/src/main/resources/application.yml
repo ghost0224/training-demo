@@ -1,3 +1,4 @@
+host: 192.168.94.241
 server:
   port: 8888
 spring:
@@ -6,6 +7,6 @@ spring:
 eureka:
   client:
     service-url:
-      defaultZone: http://127.0.0.1:${server.port}/eureka/
+      defaultZone: http://${host}:${server.port}/eureka/
     register-with-eureka: false
     fetch-registry: false

@@ -1,8 +1,15 @@
 package com.ibm.study.training.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.ibm.study.training.dao.UserDAO;
 import com.ibm.study.training.entity.RoleEO;
+import com.ibm.study.training.entity.TrainingEO;
 import com.ibm.study.training.entity.UserEO;
+import com.ibm.study.training.feignclient.PaymentService;
+import com.ibm.study.training.feignclient.TrainingService;
+import com.ibm.study.training.pojo.PaymentDTO;
+import com.ibm.study.training.pojo.RespMsg;
+import com.ibm.study.training.pojo.TrainingDTO;
 import com.ibm.study.training.pojo.UserDTO;
 import com.ibm.study.training.service.UserService;
 import com.ibm.study.training.util.CopyUtils;
@@ -16,6 +23,12 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserDAO userDAO;
+
+    @Autowired
+    private TrainingService trainingService;
+
+    @Autowired
+    private PaymentService paymentService;
 
     public UserDTO login(UserDTO userDTO) {
         UserEO userEO = userDAO.findByUsername(userDTO.getUsername());
@@ -60,6 +73,18 @@ public class UserServiceImpl implements UserService {
         UserEO userEO = userDAO.findById(id).get();
         UserDTO userDTO = CopyUtils.copy(userEO, UserDTO.class);
         return userDTO;
+    }
+
+    @Override
+    public boolean book(UserDTO userDTO, TrainingDTO trainingDTO) {
+        UserEO userEO = userDAO.findById(userDTO.getId()).get();
+        RespMsg respMsg = trainingService.findById(trainingDTO.getId());
+        Object obj = respMsg.getData();
+        System.out.println(JSON.toJSON(obj));
+        TrainingEO trainingEO = CopyUtils.copy(respMsg.getData(), TrainingEO.class);
+        userEO.getTrainingList().add(trainingEO);
+        userDAO.save(userEO);
+        return true;
     }
 
 }

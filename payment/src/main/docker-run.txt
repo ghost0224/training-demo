@@ -1,0 +1,1 @@
+docker run -d -p 8083:8083 --link eureka-server:eureka-server --name payment #imageID

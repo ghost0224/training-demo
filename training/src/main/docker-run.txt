@@ -1,0 +1,1 @@
+docker run -d -p 8082:8082 --link eureka-server:eureka-server --name training #imageID

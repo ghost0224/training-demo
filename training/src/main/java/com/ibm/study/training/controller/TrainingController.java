@@ -7,8 +7,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @RestController
@@ -31,11 +29,11 @@ public class TrainingController {
         return respMsg;
     }
 
-    @PostMapping("findById")
-    public RespMsg findById(@RequestBody TrainingDTO trainingDTO) {
+    @PostMapping("findById/{id}")
+    public RespMsg findById(@PathVariable("id") Long id) {
         log.info("begin findById");
         RespMsg respMsg = new RespMsg();
-        TrainingDTO training = trainingService.findById(trainingDTO.getId());
+        TrainingDTO training = trainingService.findById(id);
         respMsg.setCode("1205");
         respMsg.setStatus(true);
         respMsg.setData(training);
@@ -57,6 +55,8 @@ public class TrainingController {
         }
         return respMsg;
     }
+
+
 
     @PostMapping("update")
     public @ResponseBody RespMsg update(@RequestBody TrainingDTO trainingDTO) {
