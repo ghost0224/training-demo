@@ -10,7 +10,7 @@ public class UserDTO {
     private String email;
     private String username;
     private String password;
-    private boolean admin;
+    private RoleDTO role;
     private String verifyCode;
 
 }

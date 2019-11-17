@@ -1,27 +1,42 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="utf-8">
-<title>Training-UI</title>
-<script src="./js/angular.min.js"></script>
-<script src="./js/angular-route.min.js"></script>
+    <meta charset="utf-8">
+    <title>Training-UI</title>
+    <script src="./js/angular.min.js"></script>
+    <script src="./js/angular-route.min.js"></script>
 </head>
 <body ng-app='TrainingApp'>
     <h2>TrainingApp</h2>
     <ul>
-        <li><a href="#!/index">Index</a></li>
+        <li><a href="#!/">Index</a></li>
+        <li><a href="#!/search">Search</a></li>
+        <li><a href="#!/notifi">Notifications</a></li>
+        <li><a href="#!/trainings">Search Trainings</a></li>
+        <li><a href="#!/current">Current Trainings</a></li>
+        <li><a href="#!/completed">Completed Trainings</a></li>
         <li><a href="#!/login">Login</a></li>
+        <li><a href="#!/logout">Logout</a></li>
     </ul>
 
     <div ng-view></div>
     <script>
+        var baseUrl = 'http://localhost:8081/';
         angular.module('TrainingApp',['ngRoute'])
-            .controller('LoginController', function ($scope, $route) {
+            .controller('LoginController', function ($scope, $route, $http) {
                 $scope.$route = $route;
                 $scope.user = {};
                 $scope.login = function () {
                     console.log($scope.user);
-                    window.location='#!/main';
+                    $http.post(baseUrl+'login', $scope.user)
+                    .then(function (resp) {
+                        console.log(resp);
+                        if(resp.status == 200 && resp.data.status) {
+                            window.location='#!/main';
+                        } else {
+                            alert('login error!');
+                        }
+                    })
                 }
             })
             .controller('MainController', function ($scope, $route) {

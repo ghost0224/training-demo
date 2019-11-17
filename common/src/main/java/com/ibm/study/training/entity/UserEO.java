@@ -26,7 +26,7 @@ public class UserEO implements Serializable {
     @Column
     private String password;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.REFRESH)
     @JoinColumn(name = "role_id",foreignKey = @ForeignKey(name = "id"))
     private RoleEO role;
 

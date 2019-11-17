@@ -36,26 +36,33 @@ public class LoginController {
         return respMsg;
     }
 
-    @GetMapping("login")
-    public @ResponseBody RespMsg login(HttpServletRequest request) {
+    @PostMapping("login")
+    public @ResponseBody RespMsg login(HttpServletRequest request, @RequestBody UserDTO userDTO) {
         log.info("begin login");
         RespMsg respMsg = new RespMsg();
-        respMsg.setCode("0001");
-        respMsg.setMsg("no account info or wrong password.");
+        UserDTO user = userService.login(userDTO);
+        if (null != user) {
+            respMsg.setCode("1001");
+            respMsg.setStatus(true);
+            respMsg.setMsg("login successful.");
+        } else {
+            respMsg.setCode("0001");
+            respMsg.setMsg("no account info or wrong password.");
+        }
         return respMsg;
     }
 
     @PostMapping("register")
     public @ResponseBody RespMsg register(HttpServletRequest request, @RequestBody UserDTO userDTO) {
-        log.info("begin save");
+        log.info("begin register");
         RespMsg respMsg = new RespMsg();
         if(userService.save(userDTO)) {
             respMsg.setCode("1002");
             respMsg.setStatus(true);
-            respMsg.setMsg("save successful.");
+            respMsg.setMsg("register successful.");
         } else {
-            respMsg.setCode("0004");
-            respMsg.setMsg("save failure.");
+            respMsg.setCode("0002");
+            respMsg.setMsg("register failure.");
         }
         return respMsg;
     }

@@ -5,13 +5,13 @@ import com.ibm.study.training.pojo.UserDTO;
 
 public interface UserService {
 
-    UserDTO login(UserDTO accountDTO);
+    UserDTO login(UserDTO userDTO);
 
-    boolean save(UserDTO accountDTO);
+    boolean save(UserDTO userDTO);
 
     boolean delete(Long id);
 
-    boolean update(UserDTO accountDTO);
+    boolean update(UserDTO userDTO);
 
     UserDTO findById(Long id);
 }

@@ -1,14 +1,17 @@
 package com.ibm.study.training.service.impl;
 
 import com.ibm.study.training.dao.UserDAO;
+import com.ibm.study.training.entity.RoleEO;
 import com.ibm.study.training.entity.UserEO;
 import com.ibm.study.training.pojo.UserDTO;
 import com.ibm.study.training.service.UserService;
 import com.ibm.study.training.util.CopyUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional
 public class UserServiceImpl implements UserService {
 
     @Autowired
@@ -28,6 +31,8 @@ public class UserServiceImpl implements UserService {
     public boolean save(UserDTO userDTO) {
         UserEO userEO = CopyUtils.copy(userDTO, UserEO.class);
         userEO.setId(null);
+        RoleEO role = CopyUtils.copy(userDTO.getRole(), RoleEO.class);
+        userEO.setRole(role);
         userDAO.save(userEO);
         if (null != userEO.getId()) {
             return true;
