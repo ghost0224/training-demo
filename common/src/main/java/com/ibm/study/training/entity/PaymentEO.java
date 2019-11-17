@@ -25,4 +25,7 @@ public class PaymentEO {
     @Column(name = "training_name")
     private String trainingName;
 
+    @Column(name = "user_id")
+    private Long userId;
+
 }

@@ -28,8 +28,6 @@ public class LoginController {
         RespMsg respMsg = new RespMsg();
         HttpSession session = request.getSession(true);
         session.setAttribute("user", null);
-        Object o = paymentService.list();
-        respMsg.setData(o);
         respMsg.setCode("1003");
         respMsg.setStatus(true);
         respMsg.setMsg("logout successful.");

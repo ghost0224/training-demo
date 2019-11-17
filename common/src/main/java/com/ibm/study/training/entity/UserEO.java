@@ -30,12 +30,11 @@ public class UserEO {
     @JoinColumn(name = "role_id",foreignKey = @ForeignKey(name = "id"))
     private RoleEO role;
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.REFRESH)
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name="user_training", joinColumns ={@JoinColumn(name = "user_id")}, inverseJoinColumns = {@JoinColumn(name="training_id")})
     private List<TrainingEO> trainingList;
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.REFRESH)
-    @JoinTable(name = "user_payment", joinColumns = {@JoinColumn(name = "user_id")}, inverseJoinColumns = {@JoinColumn(name = "payment_id")})
+    @Transient
     private List<PaymentEO> paymentList;
 
 }
