@@ -41,6 +41,18 @@ public class TrainingController {
         return respMsg;
     }
 
+    @PostMapping("findByUserId/{userId}")
+    public RespMsg findByUserId(@PathVariable("userId") Long userId) {
+        log.info("begin findByUserId");
+        RespMsg respMsg = new RespMsg();
+        List<TrainingDTO> trainingList = trainingService.findByUserId(userId);
+        respMsg.setCode("1206");
+        respMsg.setStatus(true);
+        respMsg.setData(trainingList);
+        respMsg.setMsg("find successful.");
+        return respMsg;
+    }
+
     @PostMapping("save")
     public @ResponseBody RespMsg save(@RequestBody TrainingDTO trainingDTO) {
         log.info("begin save");

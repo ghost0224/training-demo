@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+    <meta charset="utf-8">
+    <script src="./js/angular.min.js"></script>
+    <body>
+        <input id="context" type="text"> <button ng-click="search()">Search</button>
+        <h2>Search Result</h2>
+        <table border="1">
+            <tr>
+                <td>ID</td>
+                <td>Title</td>
+                <td>Fee</td>
+                <td>Rating</td>
+                <td>Skill</td>
+                <td>Enroll</td>
+            </tr>
+            <tr ng-repeat="t in training">
+                <td>{{t.id}}</td>
+                <td>{{t.title}}</td>
+                <td>{{t.fees}}</td>
+                <td>{{t.rating}}</td>
+                <td>{{t.skill.name}}</td>
+                <td><button ng-click="enroll()">Enroll</button></td>
+            </tr>
+        </table>
+    </body>
+</html>

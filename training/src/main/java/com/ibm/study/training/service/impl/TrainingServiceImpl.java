@@ -1,8 +1,11 @@
 package com.ibm.study.training.service.impl;
 
+import com.ibm.study.training.dao.SkillDAO;
 import com.ibm.study.training.dao.TrainingDAO;
+import com.ibm.study.training.dao.UserDAO;
 import com.ibm.study.training.entity.SkillEO;
 import com.ibm.study.training.entity.TrainingEO;
+import com.ibm.study.training.entity.UserEO;
 import com.ibm.study.training.pojo.SkillDTO;
 import com.ibm.study.training.pojo.TrainingDTO;
 import com.ibm.study.training.service.TrainingService;
@@ -20,6 +23,12 @@ public class TrainingServiceImpl implements TrainingService {
 
     @Autowired
     private TrainingDAO trainingDAO;
+
+    @Autowired
+    private UserDAO userDAO;
+
+    @Autowired
+    private SkillDAO skillDAO;
 
     @Override
     public boolean save(TrainingDTO trainingDTO) {
@@ -59,9 +68,24 @@ public class TrainingServiceImpl implements TrainingService {
     }
 
     @Override
+    public List<TrainingDTO> findByUserId(Long userId) {
+        UserEO user = userDAO.findById(userId).get();
+        List<TrainingEO> trainingList = user.getTrainingList();
+        List<TrainingDTO> result = new ArrayList<>();
+        for (TrainingEO trainingEO : trainingList) {
+            TrainingDTO dto = CopyUtils.copy(trainingEO, TrainingDTO.class);
+            SkillEO skillEO = skillDAO.findById(dto.getId()).get();
+            SkillDTO skillDTO = CopyUtils.copy(skillEO, SkillDTO.class);
+            dto.setSkill(skillDTO);
+            result.add(dto);
+        }
+        return result;
+    }
+
+    @Override
     public List<TrainingDTO> search(String title) {
         List<TrainingDTO> trainingDTOList = new ArrayList<>();
-        List<TrainingEO> trainingEOList = trainingDAO.findByTitleLike(title);
+        List<TrainingEO> trainingEOList = trainingDAO.findByTitleLike("%"+title+"%");
         for (TrainingEO trainingEO : trainingEOList) {
             TrainingDTO trainingDTO = CopyUtils.copy(trainingEO, TrainingDTO.class);
             SkillDTO skillDTO = CopyUtils.copy(trainingEO.getSkill(), SkillDTO.class);

@@ -15,6 +15,8 @@ public interface TrainingService {
 
     TrainingDTO findById(Long id);
 
+    List<TrainingDTO> findByUserId(Long userId);
+
     List<TrainingDTO> search(String title);
 
 }

@@ -42,6 +42,7 @@ public class LoginController {
         if (null != user) {
             respMsg.setCode("1001");
             respMsg.setStatus(true);
+            respMsg.setData(user);
             respMsg.setMsg("login successful.");
         } else {
             respMsg.setCode("0001");

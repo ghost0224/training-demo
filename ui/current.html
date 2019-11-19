@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+    <meta charset="utf-8">
+    <script src="./js/angular.min.js"></script>
+    <body>
+        <h2>Current Trainings</h2>
+        <table border="1">
+            <tr>
+                <td>ID</td>
+                <td>Title</td>
+                <td>Fee</td>
+                <td>Rating</td>
+                <td>Skill</td>
+            </tr>
+            <tr ng-repeat="t in userTraining">
+                <td>{{t.id}}</td>
+                <td>{{t.title}}</td>
+                <td>{{t.fees}}</td>
+                <td>{{t.rating}}</td>
+                <td>{{t.skill.name}}</td>
+            </tr>
+        </table>
+    </body>
+</html>
