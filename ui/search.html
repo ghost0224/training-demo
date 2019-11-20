@@ -20,7 +20,10 @@
                 <td>{{t.fees}}</td>
                 <td>{{t.rating}}</td>
                 <td>{{t.skill.name}}</td>
-                <td><button ng-click="enroll()">Enroll</button></td>
+                <td>
+                    <button ng-if="!t.book" ng-click="enroll(t.id)">Enroll</button>
+                    <span ng-if="t.book">Booked</span>
+                </td>
             </tr>
         </table>
     </body>

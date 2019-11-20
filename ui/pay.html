@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+    <meta charset="utf-8">
+    <script src="./js/angular.min.js"></script>
+    <script src="./js/common.js"></script>
+    <body ng-app="TrainingApp">
+        <div>
+            <div>{{selectTraining.id}}</div>
+            <div>{{selectTraining.title}}</div>
+            <div>{{selectTraining.fees}}</div>
+            <div>{{remarks}}</div>
+            <div><button ng-click="pay()">Pay</button><button onclick="javascript:history.back(-1)">Back</button></div>
+        </div>
+    </body>
+</html>

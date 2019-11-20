@@ -1,7 +1,11 @@
 package com.ibm.study.training.controller;
 
+import com.ibm.study.training.dao.UserDAO;
+import com.ibm.study.training.entity.TrainingEO;
+import com.ibm.study.training.entity.UserEO;
 import com.ibm.study.training.pojo.RespMsg;
 import com.ibm.study.training.pojo.TrainingDTO;
+import com.ibm.study.training.pojo.UserDTO;
 import com.ibm.study.training.service.TrainingService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,11 +21,23 @@ public class TrainingController {
     @Autowired
     private TrainingService trainingService;
 
-    @PostMapping("search")
-    public @ResponseBody RespMsg search(@RequestBody TrainingDTO trainingDTO) {
+    @Autowired
+    private UserDAO userDAO;
+
+    @PostMapping("search/{userId}")
+    public @ResponseBody RespMsg search(@PathVariable Long userId, @RequestBody TrainingDTO trainingDTO) {
         log.info("begin search");
         RespMsg respMsg = new RespMsg();
         List<TrainingDTO> trainingDTOList = trainingService.search(trainingDTO.getTitle());
+        UserEO userEO = userDAO.findById(userId).get();
+        List<TrainingEO> trainingEOList = userEO.getTrainingList();
+        for (TrainingDTO training : trainingDTOList) {
+            for (TrainingEO trainingEO : trainingEOList) {
+                if (training.getId().longValue() == trainingEO.getId().longValue()) {
+                    training.setBook(true);
+                }
+            }
+        }
         respMsg.setCode("1201");
         respMsg.setStatus(true);
         respMsg.setData(trainingDTOList);

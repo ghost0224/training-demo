@@ -22,6 +22,7 @@
 
     <div ng-view>Training System</div>
     <script>
+        var selectTraining = null;
         angular.module('TrainingApp',['ngRoute'])
             .controller('LoginController', function ($scope, $route, $http) {
                 $scope.$route = $route;
@@ -49,13 +50,16 @@
                 }
             })
             .controller('SearchController', function ($scope, $route, $http) {
-                console.log(loginUser);
                 $scope.searchDto = {};
                 $scope.training = new Array();
                 $scope.search = function () {
+                    if (null == loginUser) {
+                        alert('Please login.')
+                        return false;
+                    }
                     $scope.searchDto.title = $("#context").val();
                     console.log($scope.searchDto);
-                    $http.post(baseUrl+'training/training/search', $scope.searchDto)
+                    $http.post(baseUrl+'training/training/search/'+loginUser.id, $scope.searchDto)
                         .then(function (resp) {
                             console.log(resp);
                             if(resp.status == 200 && resp.data.status) {
@@ -65,12 +69,25 @@
                             }
                         })
                 }
-                $scope.enroll = function () {
-                    alert('enroll');
+                $scope.enroll = function (trainingId) {
+                    if (confirm('Are you sure to enroll this training?')==true){
+                        $http.post(baseUrl+'training/training/findById/'+trainingId)
+                            .then(function (resp) {
+                                if(resp.status == 200 && resp.data.status) {
+                                    selectTraining = resp.data.data;
+                                    console.log(selectTraining);
+                                    window.location='#!/pay';
+                                } else {
+                                    alert('find error!');
+                                }
+                            })
+                        return true;
+                    }else{
+                        return false;
+                    }
                 }
             })
             .controller('CurrentController', function ($scope, $route, $http) {
-                console.log(loginUser);
                 $scope.userTraining = new Array();
                 if(null != loginUser) {
                     $http.post(baseUrl+'training/training/findByUserId/'+loginUser.id)
@@ -82,6 +99,45 @@
                                 alert('find error!');
                             }
                         })
+                }
+            })
+            .controller('PayController', function ($scope, $route, $http) {
+                $scope.remark = '';
+                $scope.selectTraining = selectTraining;
+                $scope.pay = function () {
+                    if (confirm('To pay?')==true){
+                        if (null == loginUser) {
+                            alert('Please login.')
+                            return false;
+                        }
+                        var payment = {};
+                        payment.remarks = $scope.remark;
+                        payment.amount = selectTraining.fees;
+                        payment.trainingId = selectTraining.id;
+                        console.log(selectTraining);
+                        payment.trainingName = selectTraining.title;
+                        payment.userId = loginUser.id;
+                        $http.post(baseUrl+'payment/payment/save', payment)
+                        .then(function (resp) {
+                            console.log(resp);
+                            if(resp.status == 200 && resp.data.status) {
+                                $http.post(baseUrl+'user/book/'+loginUser.id+"/"+payment.trainingId)
+                                .then(function (resp) {
+                                    console.log(resp);
+                                    if (resp.status == 200 && resp.data.status) {
+                                        window.location = '#!/current';
+                                    } else {
+                                        alert('save error!');
+                                    }
+                                });
+                            } else {
+                                alert('save error!');
+                            }
+                        });
+                        return true;
+                    }else{
+                        return false;
+                    }
                 }
             })
             .config(['$routeProvider', function($routeProvider){
@@ -100,6 +156,10 @@
                 .when('/search',{
                     templateUrl:'./search.html',
                     controller: 'SearchController'
+                })
+                .when('/pay',{
+                    templateUrl:'./pay.html',
+                    controller: 'PayController'
                 })
                 .otherwise({redirectTo:'/index'});
             }]);

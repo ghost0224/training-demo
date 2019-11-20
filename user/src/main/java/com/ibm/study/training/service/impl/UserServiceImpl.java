@@ -1,14 +1,11 @@
 package com.ibm.study.training.service.impl;
 
-import com.alibaba.fastjson.JSON;
+import com.ibm.study.training.dao.TrainingDAO;
 import com.ibm.study.training.dao.UserDAO;
 import com.ibm.study.training.entity.RoleEO;
 import com.ibm.study.training.entity.TrainingEO;
 import com.ibm.study.training.entity.UserEO;
 import com.ibm.study.training.feignclient.PaymentService;
-import com.ibm.study.training.feignclient.TrainingService;
-import com.ibm.study.training.pojo.PaymentDTO;
-import com.ibm.study.training.pojo.RespMsg;
 import com.ibm.study.training.pojo.TrainingDTO;
 import com.ibm.study.training.pojo.UserDTO;
 import com.ibm.study.training.service.UserService;
@@ -16,6 +13,8 @@ import com.ibm.study.training.util.CopyUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import javax.validation.ConstraintViolationException;
 
 @Service
 @Transactional
@@ -25,7 +24,7 @@ public class UserServiceImpl implements UserService {
     private UserDAO userDAO;
 
     @Autowired
-    private TrainingService trainingService;
+    private TrainingDAO trainingDAO;
 
     @Autowired
     private PaymentService paymentService;
@@ -77,14 +76,17 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean book(UserDTO userDTO, TrainingDTO trainingDTO) {
-        UserEO userEO = userDAO.findById(userDTO.getId()).get();
-        RespMsg respMsg = trainingService.findById(trainingDTO.getId());
-        Object obj = respMsg.getData();
-        System.out.println(JSON.toJSON(obj));
-        TrainingEO trainingEO = CopyUtils.copy(respMsg.getData(), TrainingEO.class);
-        userEO.getTrainingList().add(trainingEO);
-        userDAO.save(userEO);
-        return true;
+        try {
+            UserEO userEO = userDAO.findById(userDTO.getId()).get();
+            TrainingEO trainingEO = trainingDAO.findById(trainingDTO.getId()).get();
+            userEO.getTrainingList().add(trainingEO);
+            userDAO.save(userEO);
+            return true;
+        }catch (ConstraintViolationException e) {
+            return false;
+        } catch (RuntimeException e) {
+            return false;
+        }
     }
 
 }

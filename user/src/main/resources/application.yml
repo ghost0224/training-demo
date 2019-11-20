@@ -1,5 +1,5 @@
 server:
-  port: 8081
+  port: 8181
 spring:
   profiles:
     active: base
@@ -19,7 +19,7 @@ spring:
 eureka:
   client:
     service-url:
-      defaultZone: http://${host}:8888/eureka
+      defaultZone: http://${host}:8889/eureka
   instance:
     prefer-ip-address: true
     ip-address: ${host}

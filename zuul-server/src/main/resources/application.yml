@@ -1,10 +1,10 @@
 host: 192.168.94.241
 server:
-  port: 7070
+  port: 7071
 spring:
   application:
     name: zuul-server
 eureka:
   client:
     service-url:
-      defaultZone: http://${host}:8888/eureka
+      defaultZone: http://${host}:8889/eureka

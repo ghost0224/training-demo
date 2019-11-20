@@ -25,4 +25,6 @@ public class TrainingDTO {
 
     private SkillDTO skill;
 
+    private boolean book;
+
 }
