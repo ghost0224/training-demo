@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+    <meta charset="utf-8">
+    <script src="./js/angular.min.js"></script>
+    <body>
+        <div class="row center-block">
+            <div class="col-md-10">
+                <h2>Payment History</h2>
+                <table class="table">
+                    <tr>
+                        <td>ID</td>
+                        <td>Training Name</td>
+                        <td>Amount</td>
+                        <td>Remarks</td>
+                    </tr>
+                    <tr ng-repeat="p in userPayment">
+                        <td>{{p.id}}</td>
+                        <td>{{p.trainingName}}</td>
+                        <td>{{p.amount}}</td>
+                        <td>{{p.remarks}}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </body>
+</html>

@@ -3,22 +3,34 @@
 <head>
     <meta charset="utf-8">
     <title>Training-UI</title>
+    <!--<link rel="stylesheet" href="./bootstrap-4.3.1-dist/css/bootstrap.css" />-->
+    <!--<link rel="stylesheet" href="./font-awesome-4.7.0/css/font-awesome.css" />-->
     <script src="./js/angular.min.js"></script>
     <script src="./js/angular-route.min.js"></script>
     <script src="./js/jquery.min.js"></script>
     <script src="./js/common.js"></script>
+    <link rel="stylesheet" href="./css/bootstrap.min.css">
+    <script src="./js/bootstrap.min.js"></script>
 </head>
 <body ng-app='TrainingApp'>
-    <h2>TrainingApp</h2>
-    <ul>
-        <li><a href="#!/">Index</a></li>
-        <li><a href="#!/search">Search Trainings</a></li>
-        <li><a href="#!/current">Current Trainings</a></li>
-        <li><a href="#!/completed">Completed Trainings</a></li>
-        <li><a href="#!/payment">Payment History</a></li>
-        <li id="li-login" ng-if="null == loginUser"><a href="#!/login">Login</a></li>
-        <li id="li-logout" style="display: none"><a href="#" ng-click="$scope.logout()">Logout</a></li>
-    </ul>
+    <nav class="navbar navbar-default" role="navigation">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#!/">TrainingApp</a>
+            </div>
+            <div>
+                <ul class="nav navbar-nav">
+                    <li><a href="#!/search">Search Trainings</a></li>
+                    <li class="active"><a href="#!/current">Current Trainings</a></li>
+                    <li><a href="#!/completed">Completed Trainings</a></li>
+                    <li><a href="#!/history">Payment History</a></li>
+                    <li id="li-login" ng-if="null == loginUser"><a href="#!/login">Login</a></li>
+                    <li id="li-user" style="display: none"><a href="#"></a></li>
+                    <li id="li-logout" style="display: none"><a href="#" ng-click="$scope.logout()">Logout</a href="#"></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
 
     <div ng-view>Training System</div>
     <script>
@@ -36,6 +48,8 @@
                             window.location='#!/current';
                             loginUser = resp.data.data;
                             $("#li-login").hide();
+                            $("#li-user").show();
+                            $("#li-user").children("a").html(loginUser.username);
                             $("#li-logout").show();
                         } else {
                             alert('login error!');
@@ -45,6 +59,7 @@
                 $scope.logout = function () {
                     console.log("logout");
                     $("#li-login").show();
+                    $("#li-user").hide();
                     $("#li-logout").hide();
                     window.location='#!/index';
                 }
@@ -87,6 +102,20 @@
                     }
                 }
             })
+            .controller('HistoryController', function ($scope, $route, $http) {
+                $scope.userPayment = new Array();
+                if(null != loginUser) {
+                    $http.post(baseUrl+'payment/payment/findByUserId/'+loginUser.id)
+                        .then(function (resp) {
+                            console.log(resp);
+                            if(resp.status == 200 && resp.data.status) {
+                                $scope.userPayment = resp.data.data;
+                            } else {
+                                alert('find error!');
+                            }
+                        })
+                }
+            })
             .controller('CurrentController', function ($scope, $route, $http) {
                 $scope.userTraining = new Array();
                 if(null != loginUser) {
@@ -102,7 +131,7 @@
                 }
             })
             .controller('PayController', function ($scope, $route, $http) {
-                $scope.remark = '';
+                $scope.remarks = '';
                 $scope.selectTraining = selectTraining;
                 $scope.pay = function () {
                     if (confirm('To pay?')==true){
@@ -111,7 +140,7 @@
                             return false;
                         }
                         var payment = {};
-                        payment.remarks = $scope.remark;
+                        payment.remarks = $scope.remarks;
                         payment.amount = selectTraining.fees;
                         payment.trainingId = selectTraining.id;
                         console.log(selectTraining);
@@ -160,6 +189,10 @@
                 .when('/pay',{
                     templateUrl:'./pay.html',
                     controller: 'PayController'
+                })
+                .when('/history',{
+                    templateUrl:'./history.html',
+                    controller: 'HistoryController'
                 })
                 .otherwise({redirectTo:'/index'});
             }]);

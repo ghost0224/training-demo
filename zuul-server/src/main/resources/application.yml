@@ -1,4 +1,4 @@
-host: 192.168.94.241
+host: 192.168.43.173
 server:
   port: 7071
 spring:
