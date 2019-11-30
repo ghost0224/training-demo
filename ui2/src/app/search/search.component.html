@@ -1,0 +1,32 @@
+<div class="row" style="padding-top: 3%">
+  <div class="col-md-10 m-auto">
+    <form class="form-inline" #myForm="ngForm" (ngSubmit)="search(myForm.value)">
+      <div class="form-group">
+        <input id="title" type="text" ngModel name="title" class="form-control" placeholder="...">
+      </div>&nbsp;
+      <button class="btn btn-dark" type="submit">Search</button>
+    </form>
+    <h2>Search Result</h2>
+    <table class="table">
+      <tr>
+        <td>ID</td>
+        <td>Title</td>
+        <td>Fee</td>
+        <td>Rating</td>
+        <td>Skill</td>
+        <td>Enroll</td>
+      </tr>
+      <tr *ngFor="let data of searchList">
+        <td>{{data.id}}</td>
+        <td>{{data.title}}</td>
+        <td>{{data.fees}}</td>
+        <td>{{data.rating}}</td>
+        <td>{{data.skill.name}}</td>
+        <td>
+          <button *ngIf="!data.book" (click)="enroll(data.id)">Enroll</button>
+          <span *ngIf="data.book">Booked</span>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>

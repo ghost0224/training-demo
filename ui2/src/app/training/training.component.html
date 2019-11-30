@@ -1,0 +1,21 @@
+<div class="row" style="padding-top: 3%">
+  <div class="col-md-10 m-auto">
+    <h2>Current Trainings</h2>
+    <table class="table">
+      <tr>
+        <td>ID</td>
+        <td>Title</td>
+        <td>Fee</td>
+        <td>Rating</td>
+        <td>Skill</td>
+      </tr>
+      <tr *ngFor="let data of currentList">
+        <td>{{data.id}}</td>
+        <td>{{data.title}}</td>
+        <td>{{data.fees}}</td>
+        <td>{{data.rating}}</td>
+        <td>{{data.skill.name}}</td>
+      </tr>
+    </table>
+  </div>
+</div>

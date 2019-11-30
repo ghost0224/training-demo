@@ -1,0 +1,15 @@
+<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+  <div class="container">
+    <div class="navbar-header">
+      <a class="navbar-brand" [routerLink]="['/search']">Search Trainings</a>
+      <a class="navbar-brand" [routerLink]="['/current']">Current Trainings</a>
+<!--      <a class="navbar-brand">Completed Trainings</a>-->
+      <a class="navbar-brand" [routerLink]="['/history']">Payment History</a>
+      <a class="navbar-brand" id="loginLink" [routerLink]="['/login']">Login</a>
+      <a class="navbar-brand text-white" id="loginUser"></a>
+      <a class="navbar-brand text-white" id="logoutLink" (click)="logout()" style="cursor: pointer">Logout</a>
+    </div>
+  </div>
+</nav>
+
+<router-outlet></router-outlet>

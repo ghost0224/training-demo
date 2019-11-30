@@ -1,0 +1,19 @@
+<div class="row" style="padding-top: 3%">
+  <div class="col-md-10 m-auto">
+    <h2>Payment History</h2>
+    <table class="table">
+      <tr>
+        <td>ID</td>
+        <td>Training Name</td>
+        <td>Amount</td>
+        <td>Remarks</td>
+      </tr>
+      <tr *ngFor="let data of userPayment">
+        <td>{{data.id}}</td>
+        <td>{{data.trainingName}}</td>
+        <td>{{data.amount}}</td>
+        <td>{{data.remarks}}</td>
+      </tr>
+    </table>
+  </div>
+</div>
