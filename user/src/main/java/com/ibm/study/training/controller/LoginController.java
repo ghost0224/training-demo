@@ -1,7 +1,10 @@
 package com.ibm.study.training.controller;
 
 import com.ibm.study.training.feignclient.PaymentService;
+import com.ibm.study.training.feignclient.TrainingService;
+import com.ibm.study.training.pojo.PaymentDTO;
 import com.ibm.study.training.pojo.RespMsg;
+import com.ibm.study.training.pojo.TrainingDTO;
 import com.ibm.study.training.pojo.UserDTO;
 import com.ibm.study.training.service.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -10,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 @RestController
 @RequestMapping("/")
@@ -21,6 +25,9 @@ public class LoginController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private TrainingService trainingService;
 
     @PostMapping("logout")
     public @ResponseBody RespMsg logout(HttpServletRequest request) {
@@ -40,6 +47,9 @@ public class LoginController {
         RespMsg respMsg = new RespMsg();
         UserDTO user = userService.login(userDTO);
         if (null != user) {
+            RespMsg paymentRespMsg = paymentService.findByUserId(user.getId());
+            RespMsg trainingRespMsg = trainingService.findByUserId(user.getId());
+            user.setTrainingList((List<TrainingDTO>) trainingRespMsg.getData());
             respMsg.setCode("1001");
             respMsg.setStatus(true);
             respMsg.setData(user);

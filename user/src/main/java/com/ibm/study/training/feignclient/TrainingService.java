@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 @FeignClient(name = "TRAINING")
 public interface TrainingService {
 
-    @PostMapping("training/findById/{id}")
-    RespMsg findById(@PathVariable("id") Long id);
+    @PostMapping("training/findByUserId/{userId}")
+    RespMsg findByUserId(@PathVariable("userId") Long userId);
 
 }
