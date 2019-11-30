@@ -24,7 +24,7 @@ public class TrainingController {
     @Autowired
     private UserDAO userDAO;
 
-    @PostMapping("search/{userId}")
+    @RequestMapping("search/{userId}")
     public @ResponseBody RespMsg search(@PathVariable Long userId, @RequestBody TrainingDTO trainingDTO) {
         log.info("begin search");
         RespMsg respMsg = new RespMsg();
@@ -45,7 +45,7 @@ public class TrainingController {
         return respMsg;
     }
 
-    @PostMapping("findById/{id}")
+    @RequestMapping("findById/{id}")
     public RespMsg findById(@PathVariable("id") Long id) {
         log.info("begin findById");
         RespMsg respMsg = new RespMsg();
@@ -57,7 +57,7 @@ public class TrainingController {
         return respMsg;
     }
 
-    @PostMapping("findByUserId/{userId}")
+    @RequestMapping("findByUserId/{userId}")
     public RespMsg findByUserId(@PathVariable("userId") Long userId) {
         log.info("begin findByUserId");
         RespMsg respMsg = new RespMsg();
@@ -69,7 +69,7 @@ public class TrainingController {
         return respMsg;
     }
 
-    @PostMapping("save")
+    @RequestMapping("save")
     public @ResponseBody RespMsg save(@RequestBody TrainingDTO trainingDTO) {
         log.info("begin save");
         RespMsg respMsg = new RespMsg();
@@ -86,7 +86,7 @@ public class TrainingController {
 
 
 
-    @PostMapping("update")
+    @RequestMapping("update")
     public @ResponseBody RespMsg update(@RequestBody TrainingDTO trainingDTO) {
         log.info("begin update");
         RespMsg respMsg = new RespMsg();
@@ -102,7 +102,7 @@ public class TrainingController {
         return respMsg;
     }
 
-    @PostMapping("delete")
+    @RequestMapping("delete")
     public @ResponseBody RespMsg delete(@RequestBody TrainingDTO trainingDTO) {
         log.info("begin delete");
         RespMsg respMsg = new RespMsg();

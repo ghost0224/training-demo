@@ -17,7 +17,7 @@ public class PaymentController {
     @Autowired
     private PaymentService paymentService;
 
-    @PostMapping("findById")
+    @RequestMapping("findById")
     public RespMsg findById(@RequestBody PaymentDTO paymentDTO) {
         log.info("begin findById");
         RespMsg respMsg = new RespMsg();
@@ -29,7 +29,7 @@ public class PaymentController {
         return respMsg;
     }
 
-    @PostMapping("findByUserId/{userId}")
+    @RequestMapping("findByUserId/{userId}")
     public RespMsg findByUserId(@PathVariable("userId") Long userId) {
         log.info("begin findByUserId");
         RespMsg respMsg = new RespMsg();
